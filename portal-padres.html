@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Padres - Sistema de Calificaciones</title>
     <style>
-        /* --- Aquí está TODO tu CSS original intacto --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
             min-height: 100vh;
             padding: 2rem;
         }
+
         .header {
             background: white;
             border-radius: 15px;
@@ -25,6 +26,7 @@
             text-align: center;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
+
         .header h1 {
             color: #333;
             display: flex;
@@ -33,9 +35,11 @@
             gap: 1rem;
             margin-bottom: 0.5rem;
         }
+
         .header p {
             color: #666;
         }
+
         .back-btn {
             position: absolute;
             top: 1.5rem;
@@ -45,81 +49,273 @@
             padding: 0.8rem 1.2rem;
             border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
             text-decoration: none;
             color: #333;
-            font-weight: 600;
         }
-        .main-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            max-width: 1200px;
+
+        .back-btn:hover {
+            background: white;
+        }
+
+        .container {
+            max-width: 800px;
             margin: 0 auto;
-        }
-        .card {
             background: white;
             border-radius: 15px;
             padding: 2rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
+
+        .search-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 400px;
+            margin: 0 auto;
+            align-items: end;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+            text-align: left;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #43e97b;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .clear-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: none;
+        }
+
         .error-message {
             background: #fee;
             color: #c33;
             padding: 1rem;
             border-radius: 8px;
-            margin-bottom: 1rem;
+            margin: 1rem 0;
             display: none;
         }
+
         .empty-state {
             text-align: center;
+            padding: 3rem 1rem;
             color: #666;
-            padding: 3rem;
         }
+
+        .student-info {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 1rem;
+        }
+
+        .student-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .student-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .student-id {
+            color: #666;
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+
+        .grades-section {
+            margin-bottom: 2rem;
+        }
+
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .grade-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .grade-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .grade-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .grade-excellent { background: #d4edda; color: #155724; }
+        .grade-good { background: #cce5ff; color: #004085; }
+        .grade-average { background: #fff3cd; color: #856404; }
+        .grade-poor { background: #f8d7da; color: #721c24; }
+
+        .summary-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .average-display, .status-display {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .average-label, .status-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .average-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .status-badge {
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .status-passed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-description {
+            background: #e9ecef;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            color: #495057;
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
-            .main-container {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .summary-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .grades-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <a href="index.html" class="back-btn">← Volver al inicio</a>
+    <a href="index.html" class="back-btn">← Volver</a>
     
     <div class="header">
-        <h1>👨‍👩‍👧‍👦 Portal de Padres</h1>
-        <p>Consulta las calificaciones y progreso académico de tu hijo/a</p>
+        <h1>
+            <span style="font-size: 2rem;">👨‍👩‍👧‍👦</span>
+            Portal de Padres
+        </h1>
+        <p>Consulta las calificaciones de tu hijo/a</p>
     </div>
 
-    <div class="main-container">
-        <!-- Formulario de búsqueda -->
-        <div class="card">
-            <h2>🔍 Buscar Calificaciones</h2>
-            <p style="color: #666; margin-bottom: 2rem;">Ingresa el número de cédula de tu hijo/a para ver sus calificaciones</p>
-            <div id="errorMessage" class="error-message"></div>
-            <form id="searchForm">
+    <div class="container">
+        <div class="search-section">
+            <h2 style="margin-bottom: 1rem; color: #333;">🔍 Consultar Calificaciones</h2>
+            
+            <form id="searchForm" class="search-form">
                 <div class="form-group">
-                    <label for="studentId">Número de Cédula del Estudiante:</label>
-                    <input type="text" id="studentId" name="studentId" maxlength="10" placeholder="Ingresa 10 dígitos" required>
+                    <label for="studentId">Número de Cédula:</label>
+                    <input type="text" id="studentId" required placeholder="1234567890" maxlength="10">
                 </div>
-                <button type="submit" class="search-btn">🔍 Buscar Calificaciones</button>
-                <button type="button" id="clearBtn" class="clear-btn" style="display: none;">Limpiar Búsqueda</button>
+                <button type="submit" class="search-btn">🔍 Buscar</button>
             </form>
+            
+            <button id="clearBtn" class="clear-btn">Limpiar Búsqueda</button>
         </div>
 
-        <!-- Resultados -->
-        <div class="card">
-            <h2>📊 Información del Estudiante</h2>
-            <p style="color: #666; margin-bottom: 2rem;">Detalles de calificaciones y estado académico</p>
-            <div id="resultsContainer">
-                <div class="empty-state">
-                    <p>Ingresa el número de cédula de tu hijo/a para ver sus calificaciones y estado académico.</p>
-                </div>
+        <div id="errorMessage" class="error-message"></div>
+
+        <div id="resultsContainer">
+            <div class="empty-state">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">👨‍👩‍👧‍👦</div>
+                <p>Ingresa el número de cédula de tu hijo/a para ver sus calificaciones y estado académico.</p>
             </div>
         </div>
     </div>
 
     <script>
-        const SHEETS_URL = "https://sheets.best/api/sheets/TU_ID_DE_HOJA";
+        const SHEETS_URL = "https://api.sheetbest.com/sheets/cdd2c9aa-465c-4fe9-8412-95bf099d3b58";
         let hasSearched = false;
 
         document.getElementById('searchForm').addEventListener('submit', function(e) {
@@ -128,9 +324,12 @@
             const errorMessage = document.getElementById('errorMessage');
             const resultsContainer = document.getElementById('resultsContainer');
             const clearBtn = document.getElementById('clearBtn');
+            
             errorMessage.style.display = 'none';
             
             const studentId = document.getElementById('studentId').value.trim();
+            
+            // Validar formato de cédula
             if (!/^\d{10}$/.test(studentId)) {
                 errorMessage.textContent = 'Por favor ingresa un número de cédula válido de 10 dígitos';
                 errorMessage.style.display = 'block';
@@ -138,28 +337,37 @@
             }
             
             fetch(SHEETS_URL)
-                .then(res => res.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    const student = data.find(s => s.id === studentId);
+                    console.log('Datos recibidos:', data);
+                    const student = data.find(s => s.cedula === studentId);
+                    
                     if (student) {
                         displayStudentInfo(student);
                         clearBtn.style.display = 'block';
                         hasSearched = true;
                     } else {
-                        errorMessage.textContent = 'No se encontró ningún estudiante con esa cédula.';
+                        errorMessage.textContent = 'No se encontró ningún estudiante con esa cédula. Por favor verifica el número e intenta nuevamente.';
                         errorMessage.style.display = 'block';
                         resultsContainer.innerHTML = `
                             <div class="empty-state">
+                                <div style="font-size: 4rem; margin-bottom: 1rem;">❌</div>
                                 <p>No se encontraron registros para la cédula ingresada.</p>
+                                <p style="font-size: 0.9rem; margin-top: 1rem; color: #999;">Verifica que el número de cédula sea correcto.</p>
                             </div>
                         `;
                         clearBtn.style.display = 'block';
                         hasSearched = true;
                     }
                 })
-                .catch(err => {
-                    console.error(err);
-                    errorMessage.textContent = 'Error al consultar la base de datos';
+                .catch(error => {
+                    console.error('Error al consultar:', error);
+                    errorMessage.textContent = 'Error al consultar la base de datos. Por favor intenta nuevamente.';
                     errorMessage.style.display = 'block';
                 });
         });
@@ -169,6 +377,7 @@
             document.getElementById('errorMessage').style.display = 'none';
             document.getElementById('resultsContainer').innerHTML = `
                 <div class="empty-state">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">👨‍👩‍👧‍👦</div>
                     <p>Ingresa el número de cédula de tu hijo/a para ver sus calificaciones y estado académico.</p>
                 </div>
             `;
@@ -176,15 +385,66 @@
             hasSearched = false;
         });
 
+        function getGradeClass(grade) {
+            if (grade >= 9) return 'grade-excellent';
+            if (grade >= 7) return 'grade-good';
+            if (grade >= 5) return 'grade-average';
+            return 'grade-poor';
+        }
+
         function displayStudentInfo(student) {
             const resultsContainer = document.getElementById('resultsContainer');
-            student.average = parseFloat(student.average);
+            
+            const subjects = {
+                matematicas: { name: '🔢 Matemáticas', value: parseFloat(student.matematicas) },
+                lenguaje: { name: '📖 Lenguaje', value: parseFloat(student.lenguaje) },
+                ciencias: { name: '🔬 Ciencias Naturales', value: parseFloat(student.ciencias) },
+                sociales: { name: '🌍 Ciencias Sociales', value: parseFloat(student.sociales) },
+                ingles: { name: '🇺🇸 Inglés', value: parseFloat(student.ingles) }
+            };
+            
+            const average = parseFloat(student.promedio);
+            
             resultsContainer.innerHTML = `
                 <div class="student-info">
-                    <div class="student-name">${student.name}</div>
-                    <div class="student-id">Cédula: ${student.id}</div>
-                    <div><strong>Promedio:</strong> ${student.average.toFixed(2)}</div>
-                    <div><strong>Estado:</strong> ${student.status}</div>
+                    <div class="student-header">
+                        <div class="student-name">${student.nombre}</div>
+                        <div class="student-id">Cédula: ${student.cedula}</div>
+                    </div>
+                    
+                    <div class="grades-section">
+                        <h4 style="margin-bottom: 1rem; color: #333;">📚 Calificaciones por Materia</h4>
+                        <div class="grades-grid">
+                            ${Object.entries(subjects).map(([key, subject]) => `
+                                <div class="grade-item">
+                                    <div class="grade-label">${subject.name}</div>
+                                    <div class="grade-value ${getGradeClass(subject.value)}">${subject.value}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="summary-section">
+                        <div class="average-display">
+                            <div class="average-label">Promedio Final</div>
+                            <div class="average-value">${average.toFixed(2)}</div>
+                            <div style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">/ 10.0</div>
+                        </div>
+                        
+                        <div class="status-display">
+                            <div class="status-label">Estado Académico</div>
+                            <div class="status-badge ${student.estado === 'aprobado' ? 'status-passed' : 'status-failed'}">
+                                ${student.estado === 'aprobado' ? '✅' : '❌'} 
+                                ${student.estado.toUpperCase()}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="status-description">
+                        ${student.estado === 'aprobado' 
+                            ? '¡Felicitaciones! Tu hijo/a ha aprobado exitosamente con un promedio de 7.0 o superior.' 
+                            : 'Tu hijo/a necesita apoyo adicional. Se requiere un promedio de 7.0 o superior para aprobar.'}
+                    </div>
                 </div>
             `;
         }
