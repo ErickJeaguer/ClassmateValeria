@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Docente - Sistema de Calificaciones</title>
     <style>
-        /* --- Aquí está TODO tu CSS original intacto --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 2rem;
         }
+
         .header {
             background: white;
             border-radius: 15px;
@@ -27,12 +28,14 @@
             align-items: center;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
+
         .header h1 {
             color: #333;
             display: flex;
             align-items: center;
             gap: 1rem;
         }
+
         .logout-btn {
             background: #dc3545;
             color: white;
@@ -43,39 +46,32 @@
             font-weight: 600;
             text-decoration: none;
         }
+
         .logout-btn:hover {
             background: #c82333;
         }
-        .main-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            max-width: 1200px;
+
+        .container {
+            max-width: 800px;
             margin: 0 auto;
-        }
-        .card {
             background: white;
             border-radius: 15px;
             padding: 2rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .card h2 {
-            color: #333;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+
         .form-group {
             margin-bottom: 1.5rem;
         }
-        label {
+
+        .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #333;
             font-weight: 600;
+            color: #333;
         }
-        input {
+
+        .form-group input {
             width: 100%;
             padding: 0.8rem;
             border: 2px solid #e1e5e9;
@@ -83,33 +79,36 @@
             font-size: 1rem;
             transition: border-color 0.3s ease;
         }
-        input:focus {
+
+        .form-group input:focus {
             outline: none;
             border-color: #667eea;
         }
+
         .grades-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
-        .grade-input {
-            text-align: center;
-        }
+
         .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            padding: 1rem 2rem;
+            border-radius: 10px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.3s ease;
+            width: 100%;
         }
+
         .submit-btn:hover {
             transform: translateY(-2px);
         }
+
         .error-message {
             background: #fee;
             color: #c33;
@@ -118,6 +117,7 @@
             margin-bottom: 1rem;
             display: none;
         }
+
         .success-message {
             background: #efe;
             color: #363;
@@ -126,91 +126,135 @@
             margin-bottom: 1rem;
             display: none;
         }
+
         .student-result {
             background: #f8f9fa;
             border-radius: 10px;
             padding: 1.5rem;
             margin-top: 1rem;
         }
+
         .student-name {
             font-size: 1.2rem;
             font-weight: bold;
             color: #333;
             margin-bottom: 0.5rem;
         }
+
         .student-id {
             color: #666;
             font-family: monospace;
             margin-bottom: 1rem;
         }
-        @media (max-width: 768px) {
-            .main-container {
-                grid-template-columns: 1fr;
-            }
+
+        .grades-display {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .grade-badge {
+            background: #007bff;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .average-display {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-display {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-failed {
+            background: #f8d7da;
+            color: #721c24;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>👨‍🏫 Portal Docente</h1>
-        <a href="index.html" class="logout-btn" onclick="logout()">Cerrar Sesión</a>
+        <h1>
+            <span style="font-size: 2rem;">👨‍🏫</span>
+            Portal Docente
+        </h1>
+        <a href="#" onclick="logout()" class="logout-btn">Cerrar Sesión</a>
     </div>
 
-    <div class="main-container">
-        <div class="card">
-            <h2>📝 Registrar Calificaciones</h2>
-            <p style="color: #666; margin-bottom: 2rem;">Ingresa la información del estudiante y sus calificaciones (escala 1-10)</p>
-            <div id="errorMessage" class="error-message"></div>
-            <div id="successMessage" class="success-message"></div>
-            <form id="gradesForm">
-                <div class="form-group">
-                    <label for="studentName">Nombre del Estudiante:</label>
-                    <input type="text" id="studentName" name="studentName" required>
-                </div>
-                <div class="form-group">
-                    <label for="studentId">Número de Cédula (10 dígitos):</label>
-                    <input type="text" id="studentId" name="studentId" maxlength="10" required>
-                </div>
-                <div class="form-group">
-                    <label>Calificaciones (1-10):</label>
-                    <div class="grades-grid">
-                        <div>
-                            <label for="grade1">Historia</label>
-                            <input type="number" id="grade1" class="grade-input" min="1" max="10" step="0.1" required>
-                        </div>
-                        <div>
-                            <label for="grade2">Lengua y literatura</label>
-                            <input type="number" id="grade2" class="grade-input" min="1" max="10" step="0.1" required>
-                        </div>
-                        <div>
-                            <label for="grade3">Matemáticas</label>
-                            <input type="number" id="grade3" class="grade-input" min="1" max="10" step="0.1" required>
-                        </div>
-                        <div>
-                            <label for="grade4">Ciencias Naturales</label>
-                            <input type="number" id="grade4" class="grade-input" min="1" max="10" step="0.1" required>
-                        </div>
-                        <div>
-                            <label for="grade5">Educación Física</label>
-                            <input type="number" id="grade5" class="grade-input" min="1" max="10" step="0.1" required>
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" class="submit-btn">Calcular y Guardar Calificaciones</button>
-            </form>
-        </div>
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 2rem; color: #333;">
+            📝 Registro de Calificaciones
+        </h2>
 
-        <div class="card">
-            <h2>📊 Resumen de Calificaciones</h2>
-            <div id="resultsContainer" class="empty-state">
-                <p>Ingresa las calificaciones de un estudiante para ver los resultados aquí.</p>
+        <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
+
+        <form id="gradesForm">
+            <div class="form-group">
+                <label for="studentName">👤 Nombre del Estudiante:</label>
+                <input type="text" id="studentName" required placeholder="Ingresa el nombre completo">
             </div>
-        </div>
+
+            <div class="form-group">
+                <label for="studentId">🆔 Número de Cédula:</label>
+                <input type="text" id="studentId" required placeholder="1234567890" maxlength="10">
+            </div>
+
+            <h3 style="margin-bottom: 1rem; color: #333;">📚 Calificaciones por Materia</h3>
+            
+            <div class="grades-grid">
+                <div class="form-group">
+                    <label for="matematicas">🔢 Matemáticas:</label>
+                    <input type="number" id="matematicas" min="1" max="10" step="0.1" required placeholder="1.0 - 10.0">
+                </div>
+
+                <div class="form-group">
+                    <label for="lenguaje">📖 Lenguaje:</label>
+                    <input type="number" id="lenguaje" min="1" max="10" step="0.1" required placeholder="1.0 - 10.0">
+                </div>
+
+                <div class="form-group">
+                    <label for="ciencias">🔬 Ciencias Naturales:</label>
+                    <input type="number" id="ciencias" min="1" max="10" step="0.1" required placeholder="1.0 - 10.0">
+                </div>
+
+                <div class="form-group">
+                    <label for="sociales">🌍 Ciencias Sociales:</label>
+                    <input type="number" id="sociales" min="1" max="10" step="0.1" required placeholder="1.0 - 10.0">
+                </div>
+
+                <div class="form-group">
+                    <label for="ingles">🇺🇸 Inglés:</label>
+                    <input type="number" id="ingles" min="1" max="10" step="0.1" required placeholder="1.0 - 10.0">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                💾 Guardar Calificaciones
+            </button>
+        </form>
+
+        <div id="resultsContainer"></div>
     </div>
 
     <script>
-        const SHEETS_URL = "https://sheets.best/api/sheets/TU_ID_DE_HOJA";
+        const SHEETS_URL = "https://api.sheetbest.com/sheets/cdd2c9aa-465c-4fe9-8412-95bf099d3b58";
 
+        // Verificar autenticación
         if (!localStorage.getItem('docenteLoggedIn')) {
             window.location.href = 'login-docente.html';
         }
@@ -218,6 +262,7 @@
         function logout() {
             localStorage.removeItem('docenteLoggedIn');
             localStorage.removeItem('docenteUsuario');
+            window.location.href = 'login-docente.html';
         }
 
         document.getElementById('gradesForm').addEventListener('submit', function(e) {
@@ -228,69 +273,126 @@
             errorMessage.style.display = 'none';
             successMessage.style.display = 'none';
 
+            // Obtener datos del formulario
             const studentName = document.getElementById('studentName').value.trim();
             const studentId = document.getElementById('studentId').value.trim();
-            const grades = [
-                parseFloat(document.getElementById('grade1').value),
-                parseFloat(document.getElementById('grade2').value),
-                parseFloat(document.getElementById('grade3').value),
-                parseFloat(document.getElementById('grade4').value),
-                parseFloat(document.getElementById('grade5').value)
-            ];
+            
+            const grades = {
+                matematicas: parseFloat(document.getElementById('matematicas').value),
+                lenguaje: parseFloat(document.getElementById('lenguaje').value),
+                ciencias: parseFloat(document.getElementById('ciencias').value),
+                sociales: parseFloat(document.getElementById('sociales').value),
+                ingles: parseFloat(document.getElementById('ingles').value)
+            };
 
-            if (!studentName || !/^\d{10}$/.test(studentId) || grades.some(g => isNaN(g) || g < 1 || g > 10)) {
-                errorMessage.innerHTML = 'Por favor ingresa todos los datos correctamente.';
+            // Validaciones mejoradas
+            const errors = [];
+            
+            if (!studentName) {
+                errors.push('El nombre del estudiante es requerido');
+            }
+            
+            if (!/^\d{10}$/.test(studentId)) {
+                errors.push('El número de cédula debe tener exactamente 10 dígitos');
+            }
+            
+            // Validar cada materia
+            const subjects = ['matematicas', 'lenguaje', 'ciencias', 'sociales', 'ingles'];
+            const subjectNames = ['Matemáticas', 'Lenguaje', 'Ciencias Naturales', 'Ciencias Sociales', 'Inglés'];
+            
+            subjects.forEach((subject, index) => {
+                const grade = grades[subject];
+                if (isNaN(grade) || grade < 1 || grade > 10) {
+                    errors.push(`La calificación de ${subjectNames[index]} debe ser un número entre 1 y 10`);
+                }
+            });
+
+            if (errors.length > 0) {
+                errorMessage.innerHTML = '<ul>' + errors.map(error => `<li>${error}</li>`).join('') + '</ul>';
                 errorMessage.style.display = 'block';
                 return;
             }
 
-            const average = grades.reduce((a, b) => a + b, 0) / grades.length;
+            // Calcular promedio
+            const gradeValues = Object.values(grades);
+            const average = gradeValues.reduce((sum, grade) => sum + grade, 0) / gradeValues.length;
             const status = average >= 7 ? 'aprobado' : 'reprobado';
 
             const student = {
-                id: studentId,
-                name: studentName,
-                grade1: grades[0],
-                grade2: grades[1],
-                grade3: grades[2],
-                grade4: grades[3],
-                grade5: grades[4],
-                average: average,
-                status: status,
-                timestamp: new Date().toISOString()
+                cedula: studentId,
+                nombre: studentName,
+                matematicas: grades.matematicas,
+                lenguaje: grades.lenguaje,
+                ciencias: grades.ciencias,
+                sociales: grades.sociales,
+                ingles: grades.ingles,
+                promedio: parseFloat(average.toFixed(2)),
+                estado: status,
+                fecha: new Date().toISOString()
             };
 
+            // Enviar a Google Sheets
             fetch(SHEETS_URL, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify(student)
             })
-            .then(res => res.json())
-            .then(() => {
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Datos guardados exitosamente:', data);
                 displayResults(student);
-                successMessage.textContent = '¡Calificaciones guardadas exitosamente!';
+                successMessage.textContent = '¡Calificaciones guardadas exitosamente en Google Sheets!';
                 successMessage.style.display = 'block';
                 document.getElementById('gradesForm').reset();
             })
-            .catch(err => {
-                console.error(err);
-                errorMessage.textContent = 'Error al guardar en la base de datos';
+            .catch(error => {
+                console.error('Error al guardar:', error);
+                errorMessage.textContent = 'Error al guardar en la base de datos. Por favor intenta nuevamente.';
                 errorMessage.style.display = 'block';
             });
         });
 
         function displayResults(student) {
             const resultsContainer = document.getElementById('resultsContainer');
+            
+            const subjectNames = {
+                matematicas: 'Matemáticas',
+                lenguaje: 'Lenguaje',
+                ciencias: 'Ciencias Naturales',
+                sociales: 'Ciencias Sociales',
+                ingles: 'Inglés'
+            };
+            
             resultsContainer.innerHTML = `
                 <div class="student-result">
-                    <div class="student-name">${student.name}</div>
-                    <div class="student-id">Cédula: ${student.id}</div>
-                    <div><strong>Promedio:</strong> ${student.average.toFixed(2)}</div>
-                    <div><strong>Estado:</strong> ${student.status}</div>
+                    <div class="student-name">${student.nombre}</div>
+                    <div class="student-id">Cédula: ${student.cedula}</div>
+                    
+                    <h4 style="margin-bottom: 1rem; color: #333;">📚 Calificaciones Registradas:</h4>
+                    <div class="grades-display">
+                        ${Object.entries(subjectNames).map(([key, name]) => 
+                            `<div class="grade-badge">${name}: ${student[key]}</div>`
+                        ).join('')}
+                    </div>
+                    
+                    <div class="average-display">
+                        📊 Promedio Final: ${student.promedio}
+                    </div>
+                    
+                    <div class="status-display ${student.estado === 'aprobado' ? 'status-approved' : 'status-failed'}">
+                        ${student.estado === 'aprobado' ? '✅' : '❌'} 
+                        Estado: ${student.estado.toUpperCase()}
+                    </div>
                 </div>
             `;
         }
     </script>
 </body>
 </html>
-
